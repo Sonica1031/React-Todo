@@ -14,6 +14,7 @@ class TodoForm extends React.Component{
     onSub = e => {
         e.preventDefault();
         this.props.addItem(this.state.itemText);
+        this.setState({itemText: ""})
     }
    
 render(){
