@@ -1,58 +1,36 @@
-import React from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import './components/TodoComponents/Todo.css'
 import TodoList from './components/TodoComponents/TodoList';
 import { TodoData } from './data';
 import TodoForm from './components/TodoComponents/TodoForm';
+import Reducer, { ADD_ITEM, REMOVE_ITEM, COMPLETE} from './components/Reducer';
 
-class App extends React.Component {
+const App = () => {
   // you will need a place to store your state in this component.
   // design `App` to be the parent component of your application.
   // this component is going to take care of state, and any change handlers you need to work with your state
-  constructor(){
-  super();
-  this.state = {
-    TodoData
-  }
-    }
-    handler = (itemID) =>{
-      this.setState({ TodoData : this.state.TodoData.map(item =>{
-      if(itemID === item.id){
-        return {
-         ...item,
-         completed : !item.completed
-        }
-      }
-    return item;
-  })})
-}
-  onSub = e =>{
-    e.preventDefault();
+  const [state, dispatch] = useReducer(Reducer, TodoData)
+
+   const handler = (itemID) =>{
+        dispatch({type: COMPLETE, payload: itemID})
   }
   
-  addItem = (itemText) =>{
-    const newItem = {
-      task: itemText,
-      completed: false,
-      id: Date.now()
-    }
-    this.setState({TodoData: [...this.state.TodoData, newItem]})
+  const addItem = (name) =>{
+    dispatch({type: ADD_ITEM, payload: name})
   }
-  onClear = (e) =>{
+  const onClear = (e) =>{
     e.preventDefault();
-    this.setState({TodoData: [...this.state.TodoData.filter(item => item.completed === false)]});
+    dispatch({type: REMOVE_ITEM})
   }
-
-  render() {
     return(
       <div className="container">
         <div className="borderlands">
         <h2>The To-do's</h2>
-        <TodoList  data = {this.state.TodoData} toggleCompleted = {this.handler}/>
-        <TodoForm addItem = {this.addItem} onClear={this.onClear}/>
+        <TodoList  data = {state} toggleCompleted = {handler}/>
+        <TodoForm addItem = {addItem} onClear={onClear}/>
         </div>
       </div>
     );
-  }
 }
 
 export default App;

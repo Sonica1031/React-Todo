@@ -1,33 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class TodoForm extends React.Component{
-    constructor(){
-        super();
-        this.state={
-            itemText:""
-        }
-    }
+const TodoForm = (props) =>{
+const [value, setValue] = useState("")
 
-    changeValue = e => {
-        this.setState({itemText: e.target.value})
+    const changeValue = e => {
+        setValue(e.target.value)
     }
-    onSub = e => {
+    
+    const onSub = e => {
         e.preventDefault();
-        this.props.addItem(this.state.itemText);
-        this.setState({itemText: ""})
+        props.addItem(value);
+        setValue("")
     }
    
-render(){
 return(
-
 <form>
-    <input className='subVal' type='text' placeholder='Task Name' name="itemText" value={this.state.itemText} onChange={this.changeValue}></input>
-    <button onClick={this.onSub}>Add</button>
-    <button onClick={this.props.onClear}>Clear</button>
+    <input className='subVal' type='text' placeholder='Task Name' name="itemText" value={value} onChange={changeValue}></input>
+    <button onClick={onSub}>Add</button>
+    <button onClick={props.onClear}>Clear</button>
 </form>
 
 )
-}
 }
 
 export default TodoForm;

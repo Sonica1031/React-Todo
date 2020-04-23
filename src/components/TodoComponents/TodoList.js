@@ -4,11 +4,14 @@ import Todo from './Todo';
 // feel free to change this component.js into TodoList.js
 
 const TodoList = (props) =>{
+    console.log("Props", props)
     return(
-    props.data.map(item =>{
+        <div>
+    {props.data.map(item =>{
         return(
         <Todo item = {item} toggleCompleted={props.toggleCompleted} />
-    )})
+    )})}
+    </div>
     )
 }
 
